@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="fillForm()">fillForm</button>
+    <button onclick="downloadPdf()">DownLoad PDF</button>
+    <a href="http://localhost:3000/">downloadPDF by a tag</a>
+    <button onclick="downloadModifyPDF()">DownLoad Modify PDF</button>
+    <button onclick="downloadPDFbase64()">DownLoad PDF by base64</button>
+    <iframe id="pdfreader"></iframe>
+    <script>
+
+        function fillForm(){
+            fetch('http://localhost:3000/fillform')
+            .then(res => res.json())
+            .then(res => console.log(res))
+        }
+        
+        function downloadPdf(){
+            fetch('http://localhost:3000/')
+            .then(res => res.arrayBuffer())
+            .then(res =>{
+                var file = new Blob([res], { type: 'application/pdf' });
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL)
+            })
+        }
+
+        function downloadModifyPDF(){
+            fetch('http://localhost:3000/modifyAnExistingPDF')
+            .then(res => res.arrayBuffer())
+            .then(res =>{
+                console.log(res)
+                var file = new Blob([res], { type: 'application/pdf' });
+                var fileURL = URL.createObjectURL(file);
+                window.open(fileURL)
+            })
+        }
+
+        function downloadPDFbase64(){
+            fetch('http://localhost:3000/downloadPDFbase64')
+            .then(res => res.json())
+            .then(res => {
+                const getPdfReader = document.getElementById('pdfreader');
+                getPdfReader.src = res.base64
+            })
+        }
+    </script>
+</body>
+</html>

@@ -12,6 +12,7 @@
     <a href="http://localhost:3000/">downloadPDF by a tag</a>
     <button onclick="downloadModifyPDF()">DownLoad Modify PDF</button>
     <button onclick="downloadPDFbase64()">DownLoad PDF by base64</button>
+    <button onclick="actionAtagDownload()">action A tag Download</button>
     <iframe id="pdfreader"></iframe>
     <script>
 
@@ -26,6 +27,13 @@
             .then(res => res.arrayBuffer())
             .then(res =>{
                 var file = new Blob([res], { type: 'application/pdf' });
+                /* 
+                    var aBlob = new Blob( array, options );
+                    
+                    options 的屬性:
+                    1. type 代表要被放去 Blob 物件內容的 MIME 類型
+                    2. endings 選擇 \n 換行字元要如何輸出
+                */
                 var fileURL = URL.createObjectURL(file);
                 window.open(fileURL)
             })
@@ -49,6 +57,28 @@
                 const getPdfReader = document.getElementById('pdfreader');
                 getPdfReader.src = res.base64
             })
+        }
+
+        const createAtagDownload = (function (){
+            const a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            return function(url, filename){
+                console.log("123456789")
+                fetch(url).then(res => res.arrayBuffer())
+                .then(res => {
+                    const file = new Blob([res], { type: 'application/pdf' });
+                    const fileURL = URL.createObjectURL(file);
+                    a.href = fileURL;
+                    a.download = filename;
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                })
+            }
+        })()
+
+        function actionAtagDownload(){
+            createAtagDownload('http://localhost:3000/', 'actionAtagDownload.pdf')
         }
     </script>
 </body>

@@ -28,12 +28,14 @@ app.get('/modifyAnExistingPDF', async (req, res) => {
 
     const form = document.getForm()
     const fields = form.getFields()
+
+    // 獲取存在 PDF 內的欄位名稱
     fields.forEach(field => {
         const type = field.constructor.name
         const name = field.getName()
         console.log(`${type}: ${name}`)
     })
-    const ssn = form.getTextField('SSN')
+    const SSN = form.getTextField('SSN')
     const AMT = form.getTextField('AMT')
     const SSSN = form.getTextField('SSSN')
     const NAME = form.getTextField('NAME')
@@ -42,9 +44,14 @@ app.get('/modifyAnExistingPDF', async (req, res) => {
     const APT = form.getTextField('APT')
     const CSZ = form.getTextField('CSZ')
     
-
-    ssn.setText('0000000000')
-
+    SSN.setText('SSN:000000')
+    AMT.setText('AMT:777777')
+    SSSN.setText('SSSN:444444')
+    NAME.setText('NAME:555555')
+    SPNAME.setText('SPNAME:444444')
+    ADDR.setText('ADDR:333333')
+    APT.setText('APT:888888')
+    CSZ.setText('CSZ:999999')
 
     const pages = document.getPages()
     const firstPage = pages[0]

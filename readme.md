@@ -12,4 +12,5 @@ In the front end part, display three type download methods.
 
 1. download pdf file using anchor tag.
 2. convert the response to Blob type and generate URL.
-3. get base64 string and put to iframe
+3. fetch base64 string and put base64 link to iframe src attributes.
+4. Display how to get PDF form field and set text to field, throught nodejs and package of pdf-lib
